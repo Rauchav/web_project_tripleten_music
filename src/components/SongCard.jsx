@@ -15,9 +15,6 @@ const SongCard = ({ song }) => {
         </div>
       </div>
       <div className="song__card-block-right">
-        <a className="song__like-button">
-          <GoHeart color="white" size={26} className="song__heart-icon" />
-        </a>
         <p>{song.duration}</p>
       </div>
     </div>
