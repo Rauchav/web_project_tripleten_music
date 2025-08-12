@@ -1,0 +1,77 @@
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-bottom: solid 1px white;
+  background-color: black;
+  width: 100%;
+}
+
+.searchbar__form {
+  width: 80%;
+  display: flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchbar__input {
+  background-color: rgb(25, 25, 25);
+  border: none;
+  height: 35px;
+  width: 80%;
+  font-family: "Ubuntu Light", sans-serif;
+  border-radius: 16px;
+  padding-left: 20px;
+  margin-right: 10px;
+}
+
+.searchbar__input,
+select,
+textarea {
+  color: white;
+}
+
+.searchbar__input::placeholder {
+  color: rgb(160, 160, 160);
+}
+
+.searchbar__input:focus {
+  outline: none !important;
+  border: 1px solid #1ed760;
+}
+
+.searchbar__back-icon {
+  height: 26px;
+  width: 26px;
+  cursor: pointer;
+}
+
+.searchbar__back-icon:hover {
+  color: #1ed760;
+}
+
+.searchbar__search-button {
+  all: unset;
+  cursor: pointer;
+}
+
+.searchbar__search-button,
+.searchbar__search-icon:hover {
+  color: #1ed760;
+}
+
+.searchbar__search-icon {
+  color: white;
+}
+
+@media screen and (max-width: 420px) {
+  .searchbar__input,
+  select,
+  textarea {
+    font-size: 10px;
+  }
+}

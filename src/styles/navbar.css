@@ -1,0 +1,74 @@
+.topbar {
+  position: fixed;
+  width: 100%;
+}
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 5rem;
+  border-bottom: solid 1px white;
+  background-color: black;
+}
+
+.navbar__logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 50px;
+}
+
+.navbar__logo-text {
+  font-family: "Ubuntu Black", sans-serif;
+}
+
+.navbar__logo-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.navbar__logged-out {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.navbar__logged-out-button {
+  border: solid 1px white;
+  border-radius: 6px;
+  padding: 6px 40px 6px 40px;
+  background-color: black;
+  color: white;
+  font-family: "Ubuntu Medium", sans-serif;
+  font-size: small;
+  cursor: pointer;
+}
+
+.navbar__signin-button:hover {
+  background-color: #1ed760;
+  color: black;
+  border: solid 1px black;
+  padding: 6px 41px 6px 41px;
+  transition: 0.3s;
+}
+
+@media screen and (max-width: 420px) {
+  .navbar__logo {
+    font-size: 12px;
+  }
+
+  .navbar__logo-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .navbar__container-left {
+    margin-left: 20px;
+  }
+
+  .navbar__container-right {
+    margin-right: 20px;
+  }
+}

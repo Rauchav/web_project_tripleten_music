@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Ubuntu:wght@400;700&display=swap");
+
+@font-face {
+  font-family: "Ubuntu Black";
+  src: url("../fonts/Ubuntu-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Medium";
+  src: url("../fonts/Ubuntu-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Light";
+  src: url("../fonts/Ubuntu-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Figtree Italic";
+  src: url("../fonts/Figtree-Italic-VariableFont_wght.ttf") format("truetype");
+}

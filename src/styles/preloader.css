@@ -1,0 +1,11 @@
+.preloader {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #000000cd;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

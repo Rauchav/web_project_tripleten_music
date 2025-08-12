@@ -1,0 +1,12 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+@import url(./styles/body.css);
+@import url(./styles/home.css);
+@import url(./styles/player.css);
+@import url(./styles/navbar.css);
+@import url(./styles/searchbar.css);
+@import url(./styles/songslist.css);
+@import url(./styles/songs.css);
+@import url(./styles/playercomponent.css);
+@import url(./styles/preloader.css);
+@import url(./styles/loginmodal);

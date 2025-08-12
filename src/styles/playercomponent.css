@@ -1,0 +1,41 @@
+.playerbar {
+  height: 103px;
+  width: 100%;
+  background-color: black;
+  border-top: solid 1px white;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerbar__container-left {
+  width: 23%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.playerbar__image {
+  width: 100px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.playerbar__song-duration {
+  margin-right: 50px;
+  font-family: "Ubuntu Light", sans-serif;
+  font-size: 15px;
+}
+
+.playerbar__line {
+  border: solid 1px white;
+  width: 380px;
+}
