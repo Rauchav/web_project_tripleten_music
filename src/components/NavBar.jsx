@@ -20,7 +20,7 @@ const NavBar = () => {
         </div>
         {/*
         <div className="navbar__loggedout">
-          <button className="navbar__loggedout-button">SIGN IN</button>
+          <button className="navbar__loggedout-button">LOGIN</button>
         </div>
         */}
 
