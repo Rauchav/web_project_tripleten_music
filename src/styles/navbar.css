@@ -47,6 +47,14 @@
   cursor: pointer;
 }
 
+.navbar__loggedout-button:hover {
+  background-color: #1ed760;
+  color: black;
+  border: solid 1px black;
+  padding: 6px 41px;
+  transition: 0.3s;
+}
+
 .navbar__signin-button:hover {
   background-color: #1ed760;
   color: black;
