@@ -17,8 +17,9 @@ const ErrorModal = () => {
           <h3 className="login__modal-logo-text">Tripleten Music</h3>
         </div>
         <p className="login__modal-message">
-          We are sorry that you couldn't login to your Spotify account in order
-          to enjoy this song, keep tryng.
+          Lo sentimos, no pudimos iniciar sesión con tu cuenta de Spotify.
+          Revisa si tis credenciales de acceso son correctas y vuelve a
+          intentarlo.
         </p>
         <button className="login__modal-button" onClick={handleLogin}>
           OK

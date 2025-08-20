@@ -1,5 +1,12 @@
-const CLIENT_ID = "7fe7ee68fe2244b4bb4c510073a7b967";
-const CLIENT_SECRET = "2178a2dd98174ecd89fed4b784a37fd8";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+
+// Verify that environment variables are loaded
+if (!CLIENT_ID || !CLIENT_SECRET) {
+  throw new Error(
+    "No se encontraron las credenciales de Spotify. Revisa tu archivo .env y asegúrate de que VITE_SPOTIFY_CLIENT_ID y VITE_SPOTIFY_CLIENT_SECRET estén configurados."
+  );
+}
 
 // Endpoints de la API de Spotify
 const SPOTIFY_API_BASE = "https://api.spotify.com/v1";

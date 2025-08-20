@@ -1,12 +1,43 @@
-# React + Vite
+# Tripleten Music
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based music application that integrates with the Spotify API to provide music search and playback functionality.
 
-Currently, two official plugins are available:
+## Environment Setup
+
+This project requires Spotify API credentials to function properly. Follow these steps to set up your environment:
+
+### 1. Create a `.env` file
+
+Create a `.env` file in the root directory of the project with the following content:
+
+```env
+VITE_SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+VITE_SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+```
+
+### 2. Get Spotify API Credentials
+
+1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Log in with your Spotify account
+3. Create a new application
+4. Copy the Client ID and Client Secret
+5. Replace the placeholder values in your `.env` file
+
+### 3. Security Notes
+
+- The `.env` file is already added to `.gitignore` to prevent committing sensitive data
+- Never commit your actual API credentials to version control
+- For production deployment, set these environment variables in your hosting platform
+
+## Development
+
+This project uses Vite for fast development and building. The main plugins are:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Available Scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
