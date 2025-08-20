@@ -1,7 +1,19 @@
 import SongCard from "./SongCard";
-import songs from "../../mockupdata/songs.json";
 
-const SongsList = () => {
+const SongsList = ({ songs = [] }) => {
+  if (songs.length === 0) {
+    return (
+      <div className="songs__list">
+        <div className="no-songs-message">
+          <p>
+            No se encontraron canciones. Intenta con un término de búsqueda
+            diferente.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="songs__list">
       {songs.map((song) => (
