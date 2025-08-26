@@ -44,13 +44,16 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div className="searchbar">
-      <div className="searchbar__back-icon-container">
+      <div
+        className="searchbar__back-container"
+        onClick={handleBackClick}
+        style={{ cursor: "pointer" }}
+      >
         {isPlayerPage && (
-          <IoChevronBackCircle
-            className="searchbar__back-icon"
-            onClick={handleBackClick}
-            style={{ cursor: "pointer" }}
-          />
+          <>
+            <IoChevronBackCircle className="searchbar__back-icon" />
+            <p className="searchbar__back-text">Elegir otra canción</p>
+          </>
         )}
       </div>
       {!isPlayerPage && (
