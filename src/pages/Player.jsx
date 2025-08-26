@@ -1,6 +1,33 @@
 import bgVideo from "../assets/videos/player-background.mp4";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "../services/authService";
 
-const Player = () => {
+const Player = ({ user }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  if (!user) {
+    return null;
+  }
+
+  const handleVideoLoad = () => {
+    console.log("Video loaded successfully");
+  };
+
+  const handleVideoError = (error) => {
+    console.error("Video loading error:", error);
+  };
+
+  const handleVideoCanPlay = () => {
+    console.log("Video can play");
+  };
+
   return (
     <div className="player">
       <video
@@ -10,6 +37,19 @@ const Player = () => {
         loop
         muted
         playsInline
+        onLoadedData={handleVideoLoad}
+        onError={handleVideoError}
+        onCanPlay={handleVideoCanPlay}
+        preload="auto"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -1,
+        }}
       />
       <div className="player__text-container">
         <h1 className="player__Lyrics-title">Scared Tissue</h1>

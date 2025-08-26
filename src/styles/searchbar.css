@@ -44,6 +44,11 @@ textarea {
   border: 1px solid #1ed760;
 }
 
+.searchbar__back-icon-container {
+  display: flex;
+  align-items: center;
+}
+
 .searchbar__back-icon {
   height: 26px;
   width: 26px;

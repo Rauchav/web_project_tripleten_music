@@ -1,6 +1,6 @@
 import SongCard from "./SongCard";
 
-const SongsList = ({ songs = [] }) => {
+const SongsList = ({ songs = [], user }) => {
   if (songs.length === 0) {
     return (
       <div className="songs__list">
@@ -17,7 +17,7 @@ const SongsList = ({ songs = [] }) => {
   return (
     <div className="songs__list">
       {songs.map((song) => (
-        <SongCard key={song._id} song={song} />
+        <SongCard key={song._id} song={song} user={user} />
       ))}
     </div>
   );

@@ -1,14 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { GoHeartFill } from "react-icons/go";
 import { GoHeart } from "react-icons/go";
 
-const SongCard = ({ song }) => {
+const SongCard = ({ song, user }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleCardClick = () => {
-    // Mostrar modal de login cuando se hace clic en la canción
-    setShowLoginModal(true);
+    if (user) {
+      // User is already authenticated, go directly to player
+      console.log("User authenticated, navigating to player");
+      navigate("/player");
+    } else {
+      // User not authenticated, show login modal
+      console.log("User not authenticated, showing login modal");
+      setShowLoginModal(true);
+    }
   };
 
   const handleCloseLoginModal = () => {

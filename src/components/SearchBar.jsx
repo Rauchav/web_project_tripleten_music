@@ -1,28 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoChevronBackCircle } from "react-icons/io5";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SearchBar = ({ onSearch }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isPlayerPage = location.pathname === "/player";
   const [searchQuery, setSearchQuery] = useState("");
   const isInitialMount = useRef(true);
 
-  // Efecto de búsqueda con debounce - solo ejecutar si onSearch está proporcionado
   useEffect(() => {
     if (!onSearch) return;
 
-    // Saltar el primer render para evitar activar búsqueda al montar
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
     }
 
     const timeoutId = setTimeout(() => {
-      // Solo activar búsqueda si hay una consulta real
       if (searchQuery.trim()) {
         onSearch(searchQuery);
       }
-      // No activar búsqueda cuando la consulta está vacía
-    }, 500); // 500ms de retraso
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [searchQuery, onSearch]);
@@ -38,22 +38,35 @@ const SearchBar = ({ onSearch }) => {
     setSearchQuery("");
   };
 
+  const handleBackClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="searchbar">
-      <IoChevronBackCircle className="searchbar__back-icon" />
-      <form className="searchbar__form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="searchbar__input"
-          placeholder="Buscar canciones, artistas o álbumes"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="searchbar__search-button">
-          <FaSearch className="searchbar__search-icon" />
-        </button>
-      </form>
-      <div className="searchbar__space"></div>
+      <div className="searchbar__back-icon-container">
+        {isPlayerPage && (
+          <IoChevronBackCircle
+            className="searchbar__back-icon"
+            onClick={handleBackClick}
+            style={{ cursor: "pointer" }}
+          />
+        )}
+      </div>
+      {!isPlayerPage && (
+        <form className="searchbar__form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="searchbar__input"
+            placeholder="Buscar canciones, artistas o álbumes"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="searchbar__search-button">
+            <FaSearch className="searchbar__search-icon" />
+          </button>
+        </form>
+      )}
     </div>
   );
 };

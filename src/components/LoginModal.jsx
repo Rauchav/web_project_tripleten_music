@@ -1,5 +1,6 @@
 import spotifyIcon from "../assets/images/spotify-icon.png";
 import { IoClose } from "react-icons/io5";
+import { initiateSpotifyLogin } from "../services/authService";
 
 const LoginModal = ({ onClose, message }) => {
   const defaultMessage =
@@ -8,8 +9,51 @@ const LoginModal = ({ onClose, message }) => {
   const displayMessage = message || defaultMessage;
 
   const handleLogin = () => {
-    // Este código viene en la siguiente etapa
-    console.log("Este código viene en la siguiente etapa");
+    try {
+      console.log("Login button clicked!");
+
+      // Clear any invalid auth state first
+      localStorage.removeItem("spotify_access_token");
+      localStorage.removeItem("spotify_user_info");
+      // DON'T clear spotify_auth_state - it's needed for the callback
+
+      // Set flag to indicate login is in progress
+      localStorage.setItem(
+        "spotify_login_attempt",
+        JSON.stringify({
+          timestamp: new Date().toISOString(),
+          step: "login_initiated",
+        })
+      );
+
+      // Simple direct redirect to Spotify
+      const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+      const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+      const SCOPES = [
+        "user-read-private",
+        "user-read-email",
+        "user-read-playback-state",
+        "user-modify-playback-state",
+        "user-read-currently-playing",
+        "streaming",
+        "playlist-read-private",
+        "playlist-read-collaborative",
+        "user-library-read",
+        "user-top-read",
+        "user-read-recently-played",
+      ].join(" ");
+
+      const state = Math.random().toString(36).substring(7);
+      localStorage.setItem("spotify_auth_state", state);
+
+      const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}&scope=${encodeURIComponent(SCOPES)}`;
+
+      console.log("Redirecting to Spotify...");
+      window.location.href = authUrl;
+    } catch (error) {
+      console.error("Error in handleLogin:", error);
+      alert(`Error al iniciar sesión: ${error.message}`);
+    }
   };
 
   const handleClose = () => {
@@ -60,7 +104,12 @@ const LoginModal = ({ onClose, message }) => {
           <h3 className="login__modal-logo-text">Tripleten Music</h3>
         </div>
         <p className="login__modal-message">{displayMessage}</p>
-        <button className="login__modal-button" onClick={handleLogin}>
+
+        <button
+          className="login__modal-button"
+          onClick={handleLogin}
+          style={{ cursor: "pointer" }}
+        >
           Iniciar sesión con Spotify
         </button>
       </div>
