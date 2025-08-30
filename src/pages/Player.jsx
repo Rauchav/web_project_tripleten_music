@@ -7,13 +7,37 @@ const Player = ({ user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/");
-    }
-  }, [navigate]);
+    console.log("Player component - checking authentication. User:", user);
+    console.log("isAuthenticated():", isAuthenticated());
+
+    // Add a small delay to allow the auth state to be properly set
+    const checkAuth = () => {
+      if (!isAuthenticated()) {
+        console.log("User not authenticated, redirecting to home");
+        navigate("/");
+      } else {
+        console.log("User is authenticated, staying on player page");
+      }
+    };
+
+    // Check immediately
+    checkAuth();
+
+    // Also check after a short delay to handle race conditions
+    const timeoutId = setTimeout(checkAuth, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [navigate, user]);
 
   if (!user) {
-    return null;
+    console.log("Player component - no user prop, showing loading...");
+    return (
+      <div className="player">
+        <div className="player__text-container">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   const handleVideoLoad = () => {

@@ -16,7 +16,7 @@ const showErrorModal = (message) => {
   window.history.replaceState({}, "", url);
 };
 
-const Callback = () => {
+const Authorize = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -74,8 +74,14 @@ const Callback = () => {
           // Marcar este callback como procesado
           localStorage.setItem(processedKey, "true");
 
-          // Redirigir a la página del reproductor después de autenticación exitosa
-          window.location.href = "/player";
+          console.log("Authentication successful, redirecting to player...");
+
+          // Add a small delay to ensure authentication state is properly set
+          setTimeout(() => {
+            // Redirigir a la página del reproductor después de autenticación exitosa
+            // Use navigate instead of window.location.href to avoid race conditions
+            navigate("/player", { replace: true });
+          }, 500);
         } else {
           // Marcar este callback como procesado
           localStorage.setItem(processedKey, "true");
@@ -123,4 +129,4 @@ const Callback = () => {
   );
 };
 
-export default Callback;
+export default Authorize;

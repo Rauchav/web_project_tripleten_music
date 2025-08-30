@@ -94,6 +94,9 @@
   .song__card:hover {
     width: 72%;
   }
+  .song__card-title {
+    max-width: 150px;
+  }
 }
 
 @media screen and (max-width: 580px) {
@@ -102,6 +105,10 @@
   }
   .song__card:hover {
     width: 92%;
+  }
+
+  .song__card-title {
+    max-width: 150px;
   }
 }
 

@@ -149,6 +149,11 @@
     align-items: center;
   }
 
+  /* Hide burger menu when user is not logged in */
+  .navbar__loggedout + .navbar__burger {
+    display: none;
+  }
+
   .navbar__loggedin--mobile {
     display: flex;
   }

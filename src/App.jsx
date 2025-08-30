@@ -7,7 +7,7 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import Home from "./pages/Home";
 import Player from "./pages/Player";
-import Callback from "./pages/Callback";
+import Authorize from "./oauth/authorize";
 import NavBar from "./components/NavBar";
 import ErrorModal from "./components/ErrorModal";
 import { searchSongs } from "./services/spotifyService";
@@ -45,12 +45,20 @@ function App() {
 
   useEffect(() => {
     const checkAuthAndUpdateUser = () => {
+      console.log("Checking authentication state...");
       if (isAuthenticated()) {
         const currentUser = getCurrentUser();
+        console.log("User is authenticated:", currentUser);
         setUser(currentUser);
       } else {
         const userInfo = localStorage.getItem("spotify_user_info");
         const token = localStorage.getItem("spotify_access_token");
+        console.log(
+          "User not authenticated. UserInfo:",
+          !!userInfo,
+          "Token:",
+          !!token
+        );
         if (userInfo && !token) {
           clearInvalidAuth();
         }
@@ -73,11 +81,23 @@ function App() {
       window.history.replaceState({}, "", window.location.pathname);
     }
 
+    // Check auth immediately
+    checkAuthAndUpdateUser();
+
+    // Also check after a delay to handle race conditions
     const timeoutId = setTimeout(() => {
       checkAuthAndUpdateUser();
     }, 500);
 
-    return () => clearTimeout(timeoutId);
+    // Check again after a longer delay to ensure auth state is properly set
+    const timeoutId2 = setTimeout(() => {
+      checkAuthAndUpdateUser();
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(timeoutId2);
+    };
   }, []);
 
   const handleErrorModalClose = () => {
@@ -102,7 +122,7 @@ function App() {
             }
           />
           <Route path="/player" element={<Player user={user} />} />
-          <Route path="/callback" element={<Callback />} />
+          <Route path="/callback" element={<Authorize />} />
         </Routes>
         {showErrorModal && (
           <ErrorModal onClose={handleErrorModalClose} message={errorMessage} />
