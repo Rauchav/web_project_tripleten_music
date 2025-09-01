@@ -12,7 +12,6 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
   const playerRef = useRef(null);
   const intervalRef = useRef(null);
 
-  // Initialize Spotify Web Playback SDK
   useEffect(() => {
     const initializePlayer = async () => {
       try {
@@ -22,7 +21,6 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
           return;
         }
 
-        // Load Spotify Web Playback SDK
         if (!window.Spotify) {
           const script = document.createElement("script");
           script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -35,14 +33,12 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
           });
         }
 
-        // Initialize the player
         playerRef.current = new window.Spotify.Player({
           name: "Tripleten Music Player",
           getOAuthToken: (cb) => cb(token),
           volume: volume / 100,
         });
 
-        // Error handling
         playerRef.current.addListener("initialization_error", ({ message }) => {
           console.error("Failed to initialize player:", message);
           setError("Failed to initialize Spotify player");
@@ -63,7 +59,6 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
           setError("Playback error");
         });
 
-        // Playback status updates
         playerRef.current.addListener("player_state_changed", (state) => {
           if (state) {
             setIsPlaying(!state.paused);
@@ -74,18 +69,15 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
           }
         });
 
-        // Ready
         playerRef.current.addListener("ready", ({ device_id }) => {
           console.log("Ready with Device ID", device_id);
           setDeviceId(device_id);
         });
 
-        // Not Ready
         playerRef.current.addListener("not_ready", ({ device_id }) => {
           console.log("Device ID has gone offline", device_id);
         });
 
-        // Connect to the player
         const connected = await playerRef.current.connect();
         if (connected) {
           console.log("Successfully connected to Spotify!");
@@ -98,7 +90,6 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
 
     initializePlayer();
 
-    // Cleanup
     return () => {
       if (playerRef.current) {
         playerRef.current.disconnect();
@@ -109,7 +100,6 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
     };
   }, []);
 
-  // Play the song when songUri changes
   useEffect(() => {
     if (deviceId && songUri && playerRef.current) {
       playSong(songUri);
@@ -207,6 +197,24 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
 
   return (
     <div className="spotify-playback">
+      <div className="spotify-playback__track-info">
+        {currentTrack && (
+          <>
+            <img
+              src={currentTrack.album.images[0]?.url}
+              alt={currentTrack.name}
+              className="spotify-playback__track-image"
+            />
+            <div className="spotify-playback__track-details">
+              <h4>{currentTrack.name}</h4>
+              <p>
+                {currentTrack.artists.map((artist) => artist.name).join(", ")}
+              </p>
+            </div>
+          </>
+        )}
+      </div>
+
       <div className="spotify-playback__controls">
         <button
           className="spotify-playback__play-pause"
@@ -232,21 +240,9 @@ const SpotifyPlayback = ({ songUri, onPlaybackStateChange }) => {
         </div>
       </div>
 
-      {currentTrack && (
-        <div className="spotify-playback__track-info">
-          <img
-            src={currentTrack.album.images[0]?.url}
-            alt={currentTrack.name}
-            className="spotify-playback__track-image"
-          />
-          <div className="spotify-playback__track-details">
-            <h4>{currentTrack.name}</h4>
-            <p>
-              {currentTrack.artists.map((artist) => artist.name).join(", ")}
-            </p>
-          </div>
-        </div>
-      )}
+      <div className="spotify-playback__song-duration">
+        {currentTrack ? "03:25" : "--:--"}
+      </div>
     </div>
   );
 };

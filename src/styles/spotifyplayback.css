@@ -1,14 +1,16 @@
 .spotify-playback {
+  height: 103px;
+  width: 100%;
+  background-color: black;
+  border-top: solid 1px white;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px 20px;
   z-index: 1000;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .spotify-playback__controls {
@@ -16,7 +18,8 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-bottom: 10px;
+  margin: 0;
+  flex: 1;
 }
 
 .spotify-playback__play-pause {
@@ -107,24 +110,28 @@
 }
 
 .spotify-playback__track-info {
+  width: 23%;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 15px;
-  margin-top: 10px;
+  margin: 0;
 }
 
 .spotify-playback__track-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
+  width: 100px;
+  height: 100%;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  object-position: center;
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .spotify-playback__track-details {
   text-align: left;
   color: white;
+  flex: 1;
 }
 
 .spotify-playback__track-details h4 {
@@ -135,6 +142,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 200px;
+  font-family: "Ubuntu Light", sans-serif;
 }
 
 .spotify-playback__track-details p {
@@ -145,30 +153,47 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 200px;
+  font-family: "Ubuntu Light", sans-serif;
+}
+
+.spotify-playback__song-duration {
+  margin-right: 50px;
+  font-family: "Ubuntu Light", sans-serif;
+  font-size: 15px;
+  color: white;
+  text-align: right;
+  min-width: 60px;
 }
 
 .spotify-playback-loading {
+  height: 103px;
+  width: 100%;
+  background-color: black;
+  border-top: solid 1px white;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  padding: 20px;
-  text-align: center;
-  color: white;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Ubuntu Light", sans-serif;
 }
 
 .spotify-playback-error {
+  height: 103px;
+  width: 100%;
+  background-color: #dc3545;
+  border-top: solid 1px white;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  padding: 20px;
-  text-align: center;
-  color: white;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Ubuntu Light", sans-serif;
 }
 
 .spotify-playback-error button {
@@ -180,6 +205,7 @@
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.3s ease;
+  font-family: "Ubuntu Light", sans-serif;
 }
 
 .spotify-playback-error button:hover {
@@ -189,7 +215,8 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .spotify-playback {
-    padding: 10px 15px;
+    height: 80px;
+    padding: 0 15px;
   }
 
   .spotify-playback__controls {
@@ -207,17 +234,26 @@
   }
 
   .spotify-playback__track-image {
-    width: 40px;
-    height: 40px;
+    width: 60px;
   }
 
   .spotify-playback__track-details h4 {
-    max-width: 150px;
+    max-width: 120px;
     font-size: 13px;
   }
 
   .spotify-playback__track-details p {
-    max-width: 150px;
+    max-width: 120px;
     font-size: 11px;
+  }
+
+  .spotify-playback__song-duration {
+    margin-right: 20px;
+    font-size: 13px;
+  }
+
+  .spotify-playback-loading,
+  .spotify-playback-error {
+    height: 80px;
   }
 }

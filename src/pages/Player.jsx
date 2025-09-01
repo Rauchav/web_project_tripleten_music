@@ -15,7 +15,6 @@ const Player = ({ user }) => {
     console.log("Player component - checking authentication. User:", user);
     console.log("isAuthenticated():", isAuthenticated());
 
-    // Get song data from navigation state
     if (location.state?.selectedSong) {
       setSelectedSong(location.state.selectedSong);
       console.log("Received song data:", location.state.selectedSong);
@@ -25,7 +24,6 @@ const Player = ({ user }) => {
       return;
     }
 
-    // Add a small delay to allow the auth state to be properly set
     const checkAuth = () => {
       if (!isAuthenticated()) {
         console.log("User not authenticated, redirecting to home");
@@ -35,10 +33,8 @@ const Player = ({ user }) => {
       }
     };
 
-    // Check immediately
     checkAuth();
 
-    // Also check after a short delay to handle race conditions
     const timeoutId = setTimeout(checkAuth, 1000);
 
     return () => clearTimeout(timeoutId);
@@ -110,7 +106,6 @@ const Player = ({ user }) => {
         <h1 className="player__Lyrics-title">{selectedSong.title}</h1>
         <h2 className="player__Lyrics-artist">{selectedSong.artist}</h2>
 
-        {/* Display current track info from Spotify if available */}
         {playbackState?.track_window?.current_track && (
           <div className="player__current-track-info">
             <p>Now playing: {playbackState.track_window.current_track.name}</p>
@@ -123,14 +118,12 @@ const Player = ({ user }) => {
           </div>
         )}
 
-        {/* Placeholder for lyrics - you can integrate with lyrics API later */}
         <div className="player__lyrics-placeholder">
           <p>🎵 Music is playing through Spotify</p>
           <p>Use the controls below to manage playback</p>
         </div>
       </div>
 
-      {/* Spotify Playback Component */}
       <SpotifyPlayback
         songUri={selectedSong.uri}
         onPlaybackStateChange={handlePlaybackStateChange}

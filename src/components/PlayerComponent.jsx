@@ -5,6 +5,7 @@ const PlayerComponent = ({ songUri, onPlaybackStateChange }) => {
     <SpotifyPlayback
       songUri={songUri}
       onPlaybackStateChange={onPlaybackStateChange}
+      className="playerbar"
     />
   );
 };
