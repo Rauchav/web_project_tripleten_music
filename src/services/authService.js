@@ -114,11 +114,27 @@ export const initiateSpotifyLogin = () => {
 
 export const handleAuthCallback = async (code, state) => {
   try {
+    console.log("=== HANDLE AUTH CALLBACK STARTED ===");
+    console.log("Code length:", code?.length);
+    console.log("State:", state);
+
     const storedState = getStoredAuthState();
+    console.log("Stored state:", storedState);
+    console.log("State match:", state === storedState);
 
     if (state !== storedState) {
+      console.error("State mismatch! Expected:", storedState, "Got:", state);
       throw new Error("State parameter mismatch");
     }
+
+    console.log("=== EXCHANGING CODE FOR TOKEN ===");
+    console.log("Token endpoint:", TOKEN_ENDPOINT);
+    console.log("Client ID exists:", !!CLIENT_ID);
+    console.log(
+      "Client secret exists:",
+      !!import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
+    );
+    console.log("Redirect URI:", REDIRECT_URI);
 
     const tokenResponse = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
@@ -135,39 +151,69 @@ export const handleAuthCallback = async (code, state) => {
       }),
     });
 
+    console.log("Token response status:", tokenResponse.status);
+    console.log("Token response ok:", tokenResponse.ok);
+
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();
+      console.error("Token exchange failed:", errorText);
       throw new Error(
         `Failed to exchange authorization code for token: ${tokenResponse.status} - ${errorText}`
       );
     }
 
     const tokenData = await tokenResponse.json();
+    console.log("Token data received:", {
+      access_token_exists: !!tokenData.access_token,
+      token_type: tokenData.token_type,
+      expires_in: tokenData.expires_in,
+      refresh_token_exists: !!tokenData.refresh_token,
+    });
 
     storeAccessToken(tokenData.access_token);
+    console.log("Access token stored in localStorage");
 
+    console.log("=== FETCHING USER INFO ===");
     const userResponse = await fetch("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${tokenData.access_token}`,
       },
     });
 
+    console.log("User response status:", userResponse.status);
+    console.log("User response ok:", userResponse.ok);
+
     if (!userResponse.ok) {
       const errorText = await userResponse.text();
+      console.error("User info fetch failed:", errorText);
       throw new Error("Failed to get user information");
     }
 
     const userData = await userResponse.json();
+    console.log("User data received:", {
+      id: userData.id,
+      display_name: userData.display_name,
+      email: userData.email,
+    });
+
     storeUserInfo(userData);
+    console.log("User info stored in localStorage");
 
     clearStoredAuthState();
+    console.log("Auth state cleared");
 
+    console.log("=== AUTHENTICATION COMPLETE ===");
     return {
       success: true,
       user: userData,
       accessToken: tokenData.access_token,
     };
   } catch (error) {
+    console.error("=== AUTHENTICATION ERROR ===");
+    console.error("Error details:", error);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+
     clearStoredAuthState();
     clearStoredAccessToken();
     clearStoredUserInfo();

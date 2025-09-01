@@ -25,8 +25,14 @@ const Authorize = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    console.log("=== AUTHORIZE COMPONENT MOUNTED ===");
+    console.log("Current URL:", window.location.href);
+    console.log("Search params:", Object.fromEntries(searchParams.entries()));
+    console.log("Is processing:", isProcessing);
+
     // Verificar si ya estamos procesando este callback
     if (isProcessing) {
+      console.log("Already processing, skipping...");
       return;
     }
 
@@ -35,6 +41,7 @@ const Authorize = () => {
     const processedKey = `callback_processed_${code}`;
 
     if (localStorage.getItem(processedKey)) {
+      console.log("Callback already processed, skipping...");
       return;
     }
 
@@ -44,12 +51,22 @@ const Authorize = () => {
 
     const handleCallback = async () => {
       try {
+        console.log("=== HANDLING CALLBACK ===");
         const code = searchParams.get("code");
         const state = searchParams.get("state");
         const error = searchParams.get("error");
 
+        console.log("Code exists:", !!code);
+        console.log("State exists:", !!state);
+        console.log("Error exists:", !!error);
+        console.log(
+          "Stored state:",
+          localStorage.getItem("spotify_auth_state")
+        );
+
         // Verificar si hubo un error de Spotify
         if (error) {
+          console.error("Spotify error:", error);
           showErrorModal("Authorization was denied or cancelled");
           navigate("/");
           return;
@@ -57,6 +74,9 @@ const Authorize = () => {
 
         // Verificar si tenemos los parámetros requeridos
         if (!code || !state) {
+          console.error("Missing required parameters");
+          console.log("Code:", code);
+          console.log("State:", state);
           showErrorModal("Invalid authorization response");
           navigate("/");
           return;
@@ -65,8 +85,11 @@ const Authorize = () => {
         // Manejar el callback de OAuth
         let result;
         try {
+          console.log("Calling handleAuthCallback...");
           result = await handleAuthCallback(code, state);
+          console.log("Auth callback result:", result);
         } catch (error) {
+          console.error("Error in handleAuthCallback:", error);
           throw error;
         }
 
@@ -74,10 +97,13 @@ const Authorize = () => {
           // Marcar este callback como procesado
           localStorage.setItem(processedKey, "true");
 
-          console.log("Authentication successful, redirecting to player...");
+          console.log("=== AUTHENTICATION SUCCESSFUL ===");
+          console.log("User:", result.user);
+          console.log("Access token exists:", !!result.accessToken);
 
           // Add a small delay to ensure authentication state is properly set
           setTimeout(() => {
+            console.log("Redirecting to player...");
             // Redirigir a la página del reproductor después de autenticación exitosa
             // Use navigate instead of window.location.href to avoid race conditions
             navigate("/player", { replace: true });
@@ -86,10 +112,12 @@ const Authorize = () => {
           // Marcar este callback como procesado
           localStorage.setItem(processedKey, "true");
 
+          console.error("Authentication failed:", result.error);
           showErrorModal("Authentication failed. Please try again.");
           navigate("/");
         }
       } catch (error) {
+        console.error("Unexpected error in callback:", error);
         showErrorModal("An unexpected error occurred");
         navigate("/");
       }

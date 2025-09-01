@@ -1,6 +1,9 @@
 import spotifyIcon from "../assets/images/spotify-icon.png";
 import { IoClose } from "react-icons/io5";
-import { initiateSpotifyLogin } from "../services/authService";
+import {
+  initiateSpotifyLogin,
+  forceCompleteLogout,
+} from "../services/authService";
 
 const LoginModal = ({ onClose, message }) => {
   const defaultMessage =
@@ -10,7 +13,21 @@ const LoginModal = ({ onClose, message }) => {
 
   const handleLogin = () => {
     try {
-      console.log("Login button clicked!");
+      console.log("=== LOGIN BUTTON CLICKED ===");
+      console.log("Current URL:", window.location.href);
+      console.log("Environment variables check:");
+      console.log(
+        "CLIENT_ID exists:",
+        !!import.meta.env.VITE_SPOTIFY_CLIENT_ID
+      );
+      console.log(
+        "REDIRECT_URI exists:",
+        !!import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+      );
+      console.log(
+        "REDIRECT_URI value:",
+        import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+      );
 
       // Clear any invalid auth state first
       localStorage.removeItem("spotify_access_token");
@@ -48,11 +65,33 @@ const LoginModal = ({ onClose, message }) => {
 
       const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}&scope=${encodeURIComponent(SCOPES)}`;
 
-      console.log("Redirecting to Spotify...");
+      console.log("=== REDIRECTING TO SPOTIFY ===");
+      console.log("Auth URL:", authUrl);
+      console.log("State:", state);
+      console.log("Redirect URI:", REDIRECT_URI);
+
       window.location.href = authUrl;
     } catch (error) {
       console.error("Error in handleLogin:", error);
       alert(`Error al iniciar sesión: ${error.message}`);
+    }
+  };
+
+  const handleDebugClear = () => {
+    try {
+      console.log("=== DEBUG CLEAR BUTTON CLICKED ===");
+      console.log("Clearing all auth data...");
+
+      // Call the force complete logout function
+      forceCompleteLogout();
+
+      console.log("All auth data cleared successfully");
+      alert(
+        "All authentication data has been cleared. You can now try logging in again."
+      );
+    } catch (error) {
+      console.error("Error in handleDebugClear:", error);
+      alert(`Error clearing data: ${error.message}`);
     }
   };
 
@@ -108,9 +147,26 @@ const LoginModal = ({ onClose, message }) => {
         <button
           className="login__modal-button"
           onClick={handleLogin}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", marginBottom: "10px" }}
         >
           Iniciar sesión con Spotify
+        </button>
+
+        {/* Debug button - temporary */}
+        <button
+          onClick={handleDebugClear}
+          style={{
+            cursor: "pointer",
+            backgroundColor: "#ff4444",
+            color: "white",
+            border: "none",
+            padding: "8px 16px",
+            borderRadius: "5px",
+            fontSize: "12px",
+            marginTop: "10px",
+          }}
+        >
+          🧹 Clear All Auth Data (Debug)
         </button>
       </div>
     </div>
