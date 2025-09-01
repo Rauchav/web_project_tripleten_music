@@ -1,9 +1,6 @@
 import spotifyIcon from "../assets/images/spotify-icon.png";
 import { IoClose } from "react-icons/io5";
-import {
-  initiateSpotifyLogin,
-  forceCompleteLogout,
-} from "../services/authService";
+import { initiateSpotifyLogin } from "../services/authService";
 
 const LoginModal = ({ onClose, message }) => {
   const defaultMessage =
@@ -58,6 +55,9 @@ const LoginModal = ({ onClose, message }) => {
         "user-library-read",
         "user-top-read",
         "user-read-recently-played",
+        "app-remote-control",
+        "playlist-modify-public",
+        "playlist-modify-private",
       ].join(" ");
 
       const state = Math.random().toString(36).substring(7);
@@ -74,24 +74,6 @@ const LoginModal = ({ onClose, message }) => {
     } catch (error) {
       console.error("Error in handleLogin:", error);
       alert(`Error al iniciar sesión: ${error.message}`);
-    }
-  };
-
-  const handleDebugClear = () => {
-    try {
-      console.log("=== DEBUG CLEAR BUTTON CLICKED ===");
-      console.log("Clearing all auth data...");
-
-      // Call the force complete logout function
-      forceCompleteLogout();
-
-      console.log("All auth data cleared successfully");
-      alert(
-        "All authentication data has been cleared. You can now try logging in again."
-      );
-    } catch (error) {
-      console.error("Error in handleDebugClear:", error);
-      alert(`Error clearing data: ${error.message}`);
     }
   };
 
@@ -147,26 +129,9 @@ const LoginModal = ({ onClose, message }) => {
         <button
           className="login__modal-button"
           onClick={handleLogin}
-          style={{ cursor: "pointer", marginBottom: "10px" }}
+          style={{ cursor: "pointer" }}
         >
           Iniciar sesión con Spotify
-        </button>
-
-        {/* Debug button - temporary */}
-        <button
-          onClick={handleDebugClear}
-          style={{
-            cursor: "pointer",
-            backgroundColor: "#ff4444",
-            color: "white",
-            border: "none",
-            padding: "8px 16px",
-            borderRadius: "5px",
-            fontSize: "12px",
-            marginTop: "10px",
-          }}
-        >
-          🧹 Clear All Auth Data (Debug)
         </button>
       </div>
     </div>

@@ -1,14 +1,29 @@
 import bgVideo from "../assets/videos/player-background.mp4";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../services/authService";
+import SpotifyPlayback from "../components/SpotifyPlayback";
+import "../styles/spotifyplayback.css";
 
 const Player = ({ user }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedSong, setSelectedSong] = useState(null);
+  const [playbackState, setPlaybackState] = useState(null);
 
   useEffect(() => {
     console.log("Player component - checking authentication. User:", user);
     console.log("isAuthenticated():", isAuthenticated());
+
+    // Get song data from navigation state
+    if (location.state?.selectedSong) {
+      setSelectedSong(location.state.selectedSong);
+      console.log("Received song data:", location.state.selectedSong);
+    } else {
+      console.log("No song data received, redirecting to home");
+      navigate("/");
+      return;
+    }
 
     // Add a small delay to allow the auth state to be properly set
     const checkAuth = () => {
@@ -27,7 +42,12 @@ const Player = ({ user }) => {
     const timeoutId = setTimeout(checkAuth, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [navigate, user]);
+  }, [navigate, user, location.state]);
+
+  const handlePlaybackStateChange = (state) => {
+    setPlaybackState(state);
+    console.log("Playback state changed:", state);
+  };
 
   if (!user) {
     console.log("Player component - no user prop, showing loading...");
@@ -35,6 +55,16 @@ const Player = ({ user }) => {
       <div className="player">
         <div className="player__text-container">
           <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedSong) {
+    return (
+      <div className="player">
+        <div className="player__text-container">
+          <p>No song selected. Redirecting...</p>
         </div>
       </div>
     );
@@ -75,45 +105,36 @@ const Player = ({ user }) => {
           zIndex: -1,
         }}
       />
+
       <div className="player__text-container">
-        <h1 className="player__Lyrics-title">Scared Tissue</h1>
-        <h2 className="player__Lyrics-artist">Red Hot Chili Peppers</h2>
-        <p className="player__Lyrics">
-          Scar tissue that I wish you saw
-          <br />
-          Sarcastic mister know-it-all
-          <br /> Close your eyes and I'll kiss you,
-          <br /> 'cause With the birds I'll share
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> Push me up against the wall
-          <br /> Young Kentucky girl in a push-up bra
-          <br /> Fallin' all over myself
-          <br /> To lick your heart and taste your health 'cause
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely view Blood
-          <br /> loss in a bathroom stall
-          <br /> A southern girl with a scarlet drawl
-          <br /> I wave goodbye to ma and pa 'Cause with the birds I'll share
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> Soft spoken with a broken jaw
-          <br /> Step outside but not to brawl and
-          <br /> Autumn's sweet, we call it fall
-          <br /> I'll make it to the moon if I have to crawl and
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely view
-          <br /> Scar tissue that I wish you saw
-          <br /> Sarcastic mister know-it-all
-          <br /> Close your eyes and I'll kiss you, 'cause
-          <br /> With the birds I'll share
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely viewin'
-          <br /> With the birds I'll share this lonely view
-        </p>
+        <h1 className="player__Lyrics-title">{selectedSong.title}</h1>
+        <h2 className="player__Lyrics-artist">{selectedSong.artist}</h2>
+
+        {/* Display current track info from Spotify if available */}
+        {playbackState?.track_window?.current_track && (
+          <div className="player__current-track-info">
+            <p>Now playing: {playbackState.track_window.current_track.name}</p>
+            <p>
+              by{" "}
+              {playbackState.track_window.current_track.artists
+                .map((artist) => artist.name)
+                .join(", ")}
+            </p>
+          </div>
+        )}
+
+        {/* Placeholder for lyrics - you can integrate with lyrics API later */}
+        <div className="player__lyrics-placeholder">
+          <p>🎵 Music is playing through Spotify</p>
+          <p>Use the controls below to manage playback</p>
+        </div>
       </div>
+
+      {/* Spotify Playback Component */}
+      <SpotifyPlayback
+        songUri={selectedSong.uri}
+        onPlaybackStateChange={handlePlaybackStateChange}
+      />
     </div>
   );
 };
