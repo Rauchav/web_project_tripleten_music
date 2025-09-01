@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../services/authService";
 import SpotifyPlayback from "../components/SpotifyPlayback";
+import Lyrics from "../components/Lyrics";
 import "../styles/spotifyplayback.css";
+import "../styles/lyrics.css";
 
 const Player = ({ user }) => {
   const navigate = useNavigate();
@@ -106,22 +108,12 @@ const Player = ({ user }) => {
         <h1 className="player__Lyrics-title">{selectedSong.title}</h1>
         <h2 className="player__Lyrics-artist">{selectedSong.artist}</h2>
 
-        {playbackState?.track_window?.current_track && (
-          <div className="player__current-track-info">
-            <p>Now playing: {playbackState.track_window.current_track.name}</p>
-            <p>
-              by{" "}
-              {playbackState.track_window.current_track.artists
-                .map((artist) => artist.name)
-                .join(", ")}
-            </p>
-          </div>
-        )}
-
-        <div className="player__lyrics-placeholder">
-          <p>🎵 Music is playing through Spotify</p>
-          <p>Use the controls below to manage playback</p>
-        </div>
+        <Lyrics
+          artist={selectedSong.artist}
+          title={selectedSong.title}
+          isVisible={true}
+          className="player__Lyrics"
+        />
       </div>
 
       <SpotifyPlayback

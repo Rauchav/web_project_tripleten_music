@@ -1,0 +1,211 @@
+.lyrics-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  margin-top: 30px;
+  max-height: 86%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.lyrics-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lyrics-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lyrics-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.lyrics-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.lyrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lyrics-header h3 {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  font-family: "Ubuntu Medium", sans-serif;
+}
+
+.lyrics-source {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-family: "Ubuntu Light", sans-serif;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.lyrics-content {
+  color: white;
+  line-height: 1.8;
+}
+
+.lyrics-line {
+  margin: 8px 0;
+  font-size: 16px;
+  font-family: "Ubuntu Light", sans-serif;
+  transition: all 0.3s ease;
+  padding: 4px 0;
+  border-radius: 4px;
+}
+
+.lyrics-line:hover {
+  background: rgba(255, 255, 255, 0.05);
+  padding-left: 8px;
+}
+
+.lyrics-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: white;
+}
+
+.lyrics-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #1db954;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.lyrics-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-family: "Ubuntu Light", sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.lyrics-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: white;
+}
+
+.lyrics-error p {
+  margin: 10px 0;
+  font-size: 18px;
+  font-family: "Ubuntu Light", sans-serif;
+}
+
+.lyrics-error-subtitle {
+  font-size: 14px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  margin-top: 15px !important;
+}
+
+.lyrics-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: white;
+}
+
+.lyrics-placeholder p {
+  margin: 10px 0;
+  font-size: 18px;
+  font-family: "Ubuntu Light", sans-serif;
+  opacity: 0.9;
+}
+
+.lyrics-placeholder p:first-child {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .lyrics-container {
+    padding: 20px;
+    margin: 20px 0;
+    max-height: 86%;
+  }
+
+  .lyrics-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .lyrics-header h3 {
+    font-size: 20px;
+  }
+
+  .lyrics-source {
+    font-size: 11px;
+  }
+
+  .lyrics-line {
+    font-size: 14px;
+    margin: 6px 0;
+  }
+
+  .lyrics-loading,
+  .lyrics-error,
+  .lyrics-placeholder {
+    padding: 30px 15px;
+  }
+
+  .lyrics-loading p,
+  .lyrics-error p,
+  .lyrics-placeholder p {
+    font-size: 16px;
+  }
+
+  .lyrics-placeholder p:first-child {
+    font-size: 20px;
+  }
+}
+
+.lyrics-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lyrics-line.current {
+  background: rgba(29, 185, 84, 0.2);
+  color: #1db954;
+  font-weight: 600;
+  padding-left: 8px;
+  border-left: 3px solid #1db954;
+}
