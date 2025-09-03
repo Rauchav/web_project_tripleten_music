@@ -91,7 +91,4 @@ Este proyecto me ayudó a entender:
 
 ---
 
-Este projecto esta disponible en:
-https://rauchav.github.io/web_project_tripleten_music/
-
 ¡Espero que te guste mi proyecto!
