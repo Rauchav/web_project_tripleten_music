@@ -44,14 +44,29 @@ textarea {
   border: 1px solid #1ed760;
 }
 
+.searchbar__back-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchbar__back-container:hover {
+  color: #1ed760;
+}
+
 .searchbar__back-icon {
   height: 26px;
   width: 26px;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .searchbar__back-icon:hover {
   color: #1ed760;
+}
+
+.searchbar__back-text {
+  font-family: "Ubuntu Light", sans-serif;
 }
 
 .searchbar__search-button {

@@ -1,14 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { GoHeartFill } from "react-icons/go";
 import { GoHeart } from "react-icons/go";
 
-const SongCard = ({ song }) => {
+const SongCard = ({ song, user }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleCardClick = () => {
-    // Mostrar modal de login cuando se hace clic en la canción
-    setShowLoginModal(true);
+    if (user) {
+      // User is already authenticated, navigate to player with song data
+      console.log("User authenticated, navigating to player with song:", song);
+
+      // Create song data object with Spotify URI
+      const songData = {
+        uri:
+          song.spotify_uri ||
+          song.uri ||
+          `spotify:track:${song.id || song._id}`,
+        title: song.title,
+        artist: song.artist,
+        album: song.album,
+        image: song.image,
+        duration: song.duration,
+        id: song.id || song._id,
+      };
+
+      // Navigate to player with song data in state
+      navigate("/player", {
+        state: { selectedSong: songData },
+      });
+    } else {
+      // User not authenticated, show login modal
+      console.log("User not authenticated, showing login modal");
+      setShowLoginModal(true);
+    }
   };
 
   const handleCloseLoginModal = () => {

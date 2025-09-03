@@ -1,9 +1,8 @@
 .home {
-  padding-top: 156px;
   background-color: rgb(25, 25, 25);
+  padding-top: 160px;
 }
 
-/* Add error message styling to home.css */
 .error-message {
   text-align: center;
   padding: 2rem;
@@ -30,7 +29,6 @@
   background: #1ed760;
 }
 
-/* No songs message */
 .no-songs-message {
   text-align: center;
   padding: 2rem;

@@ -1,30 +1,25 @@
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 
-// Verify that environment variables are loaded
 if (!CLIENT_ID || !CLIENT_SECRET) {
   throw new Error(
     "No se encontraron las credenciales de Spotify. Revisa tu archivo .env y asegúrate de que VITE_SPOTIFY_CLIENT_ID y VITE_SPOTIFY_CLIENT_SECRET estén configurados."
   );
 }
 
-// Endpoints de la API de Spotify
 const SPOTIFY_API_BASE = "https://api.spotify.com/v1";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 
-// Obtener token de credenciales del cliente para acceso público a la API
 let clientCredentialsToken = null;
 let tokenExpiry = 0;
 
 const getClientCredentialsToken = async () => {
-  // Verificar si tenemos un token válido
   if (clientCredentialsToken && Date.now() < tokenExpiry) {
     console.log("Usando token de credenciales del cliente en caché");
     return clientCredentialsToken;
   }
 
   console.log("Obteniendo nuevo token de credenciales del cliente...");
-  // Obtener nuevo token
   const response = await fetch(TOKEN_ENDPOINT, {
     method: "POST",
     headers: {
@@ -53,10 +48,8 @@ const getClientCredentialsToken = async () => {
   return clientCredentialsToken;
 };
 
-// Obtener canciones aleatorias de grandes éxitos
 export const getRandomGreatestHits = async () => {
   try {
-    // Lista de artistas populares conocidos por grandes éxitos
     const popularArtists = [
       "Queen",
       "The Beatles",
@@ -85,16 +78,13 @@ export const getRandomGreatestHits = async () => {
       "Crosby, Stills, Nash & Young",
     ];
 
-    // Mezclar el array de artistas
     const shuffledArtists = popularArtists.sort(() => Math.random() - 0.5);
 
-    // Obtener pistas principales de los primeros 20 artistas
     const songs = [];
     const artistsToFetch = shuffledArtists.slice(0, 20);
 
     for (const artist of artistsToFetch) {
       try {
-        // Primero, buscar el artista
         const searchResponse = await fetch(
           `https://api.spotify.com/v1/search?q=${encodeURIComponent(
             artist
@@ -122,7 +112,6 @@ export const getRandomGreatestHits = async () => {
 
         const artistId = searchData.artists.items[0].id;
 
-        // Obtener pistas principales para este artista
         const tracksResponse = await fetch(
           `https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`,
           {
@@ -168,14 +157,12 @@ export const getRandomGreatestHits = async () => {
   }
 };
 
-// Formatear duración de milisegundos a MM:SS
 const formatDuration = (ms) => {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-// Buscar canciones por consulta
 export const searchSongs = async (query) => {
   const token = await getClientCredentialsToken();
 

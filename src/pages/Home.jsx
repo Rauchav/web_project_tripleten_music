@@ -7,6 +7,7 @@ const Home = ({
   songs: searchResults,
   loading: searchLoading,
   error: searchError,
+  user,
 }) => {
   const [initialSongs, setInitialSongs] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -20,7 +21,6 @@ const Home = ({
       setInitialLoading(true);
       setInitialError(null);
 
-      // Intentar obtener desde la API de Spotify primero
       const fetchedSongs = await getRandomGreatestHits();
       console.log(
         "Canciones obtenidas exitosamente desde Spotify:",
@@ -29,7 +29,6 @@ const Home = ({
       setInitialSongs(fetchedSongs);
     } catch (err) {
       console.error("Error al obtener canciones desde la API de Spotify:", err);
-      // Usar datos de respaldo si la API falla
       try {
         console.log("Usando datos de respaldo...");
         const mockupSongs = await import("../../mockupdata/songs.json");
@@ -51,16 +50,22 @@ const Home = ({
     }
   }, []);
 
-  // Obtener canciones iniciales al montar el componente - solo una vez
   useEffect(() => {
     console.log("Componente Home montado, obteniendo canciones iniciales...");
-    fetchInitialSongs();
-  }, [fetchInitialSongs]);
 
-  // Determinar qué canciones mostrar y estado de carga
+    // Siempre cargar canciones al cargar/refrescar la página
+    const timer = setTimeout(() => {
+      fetchInitialSongs();
+    }, 1000); // 1 segundo de retraso
+
+    return () => clearTimeout(timer);
+  }, [fetchInitialSongs, user]);
+
   const displaySongs = searchResults.length > 0 ? searchResults : initialSongs;
   const isLoading = searchLoading || initialLoading;
   const hasError = searchError || initialError;
+
+  const showEmptyState = displaySongs.length === 0 && !user && !isLoading;
 
   console.log(
     "Render de Home - cargando:",
@@ -84,9 +89,20 @@ const Home = ({
     );
   }
 
+  if (showEmptyState) {
+    return (
+      <div className="home">
+        <div className="empty-state">
+          <h2>Welcome to Tripleten Music</h2>
+          <p>Please log in with Spotify to start listening to music.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="home">
-      <SongsList songs={displaySongs} />
+      <SongsList songs={displaySongs} user={user} />
     </div>
   );
 };

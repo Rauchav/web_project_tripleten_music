@@ -48,6 +48,10 @@
 .song__card-title {
   font-family: "Ubuntu Medium", sans-serif;
   margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
 }
 
 .song__card-artist {
@@ -90,6 +94,9 @@
   .song__card:hover {
     width: 72%;
   }
+  .song__card-title {
+    max-width: 150px;
+  }
 }
 
 @media screen and (max-width: 580px) {
@@ -98,6 +105,10 @@
   }
   .song__card:hover {
     width: 92%;
+  }
+
+  .song__card-title {
+    max-width: 150px;
   }
 }
 

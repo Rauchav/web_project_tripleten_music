@@ -1,0 +1,41 @@
+.callback-loading,
+.callback-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 9999;
+}
+
+.callback-loading p,
+.callback-error p {
+  margin-top: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.callback-error-container {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 50px 20px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.callback-error-container h2 {
+  margin-bottom: 20px;
+  color: #ff6b6b;
+}
+
+.callback-error-container p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
