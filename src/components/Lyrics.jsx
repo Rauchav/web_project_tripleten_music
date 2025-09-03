@@ -23,7 +23,6 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
       setError(null);
 
       try {
-        // Check cache first
         const cachedLyrics = getCachedLyrics(artist, title);
         if (cachedLyrics) {
           console.log("Using cached lyrics");
@@ -33,13 +32,11 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
           return;
         }
 
-        // Fetch from API
         const result = await searchLyrics(artist, title);
 
         if (result.success && result.lyrics) {
           setLyrics(result.lyrics);
           setSource(result.source);
-          // Cache the result
           cacheLyrics(artist, title, result);
         } else {
           setError(result.error || "No lyrics found");
@@ -64,7 +61,7 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
       <div className="lyrics-container">
         <div className="lyrics-loading">
           <div className="lyrics-loading-spinner"></div>
-          <p>Loading lyrics...</p>
+          <p>Cargando las letras...</p>
         </div>
       </div>
     );
@@ -74,9 +71,9 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
     return (
       <div className="lyrics-container">
         <div className="lyrics-error">
-          <p>🎵 {error}</p>
+          <p>{error}</p>
           <p className="lyrics-error-subtitle">
-            Lyrics not available for this song
+            Las letras de esta canción no estan disponibles
           </p>
         </div>
       </div>
@@ -87,8 +84,8 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
     return (
       <div className="lyrics-container">
         <div className="lyrics-placeholder">
-          <p>🎵 Music is playing through Spotify</p>
-          <p>Use the controls below to manage playback</p>
+          <p>Estas escuchando esta canción a travez de Spotify</p>
+          <p>Puedes pausar y volver a reproducir esta canción</p>
         </div>
       </div>
     );
@@ -97,10 +94,10 @@ const Lyrics = ({ artist, title, isVisible = true }) => {
   return (
     <div className="lyrics-container">
       <div className="lyrics-header">
-        <h3>Lyrics</h3>
+        <h3>Letras</h3>
         {source && (
           <span className="lyrics-source">
-            Powered by {source === "lyrics.ovh" ? "Lyrics.ovh" : source}
+            Potenciado por {source === "lyrics.ovh" ? "Lyrics.ovh" : source}
           </span>
         )}
       </div>
