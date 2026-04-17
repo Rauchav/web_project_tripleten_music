@@ -17,14 +17,7 @@ const LoginModal = ({ onClose, message }) => {
         "CLIENT_ID exists:",
         !!import.meta.env.VITE_SPOTIFY_CLIENT_ID
       );
-      console.log(
-        "REDIRECT_URI exists:",
-        !!import.meta.env.VITE_SPOTIFY_REDIRECT_URI
-      );
-      console.log(
-        "REDIRECT_URI value:",
-        import.meta.env.VITE_SPOTIFY_REDIRECT_URI
-      );
+      console.log("Hostname:", window.location.hostname);
 
       // Clear any invalid auth state first
       localStorage.removeItem("spotify_access_token");

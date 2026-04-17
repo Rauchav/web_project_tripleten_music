@@ -1,6 +1,7 @@
 // Servicio de Autenticación OAuth de Spotify
 
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+
 const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 
 if (!CLIENT_ID || !REDIRECT_URI) {
